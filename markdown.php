@@ -298,8 +298,16 @@ class WP_GFM {
 			}
 		}
 
-		$content = preg_replace_callback( '/\[markdown\](.*?)\[\/markdown\]/s', create_function( '$matches', 'return wp_markdown($matches[1]);' ), $content );
-		$content = preg_replace_callback( '/\[gfm\](.*?)\[\/gfm\]/s', create_function( '$matches', 'return wp_fgm($matches[1]);' ), $content );
+    $func1 = function($matches) {
+      return wp_markdown($matches[1]);
+    };
+
+    $func2 = function($matches) {
+      return wp_fgm($matches[1]);
+    };
+
+		$content = preg_replace_callback( '/\[markdown\](.*?)\[\/markdown\]/s', $func1 , $content );
+		$content = preg_replace_callback( '/\[gfm\](.*?)\[\/gfm\]/s', $func2, $content );
 		return $content;
 	}
 
